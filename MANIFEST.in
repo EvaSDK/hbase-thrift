@@ -1,0 +1,2 @@
+exclude Hbase.thrift*
+exclude Makefile
