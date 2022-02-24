@@ -1,6 +1,6 @@
-SRCDIR = build/hbase
+SRCDIR = hbase
 GENDIR = build/tmp
-SCRIPTDIR = build/scripts
+SCRIPTDIR = scripts
 INTERFACE = https://svn.apache.org/repos/asf/hadoop/hbase/branches/0.20/src/java/org/apache/hadoop/hbase/thrift/Hbase.thrift
 
 all: $(SRCDIR) $(SCRIPTDIR)/Hbase-remote
@@ -14,14 +14,11 @@ sdist: all
 $(SRCDIR)/Hbase-remote: $(SRCDIR)
 $(SRCDIR): $(GENDIR)/gen-py
 	mkdir -p $@
-	cp -R $^/hbase/* $@
+	cp -R $^/hbase/*.py $@
 
-$(SCRIPTDIR)/Hbase-remote: $(SRCDIR)/Hbase-remote
+$(SCRIPTDIR)/Hbase-remote: $(GENDIR)/gen-py
 	mkdir -p $(SCRIPTDIR)
-	sed -e s/'import Hbase'/'from hbase import Hbase'/ \
-		-e s/'from ttypes import '/'from hbase.ttypes import '/ \
-		< $^ > $@
-	chmod --reference $^ $@
+	cp -R $^/hbase/Hbase-remote $@
 
 $(GENDIR)/gen-py: hbase.thrift
 	-mkdir -p $(GENDIR)
