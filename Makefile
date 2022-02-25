@@ -1,8 +1,8 @@
 SRCDIR = hbase
 GENDIR = build/tmp
 SCRIPTDIR = scripts
-REFERENCE = refs/tags/rel/0.20.4
-INTERFACE = https://gitbox.apache.org/repos/asf?p=hbase.git;a=blob_plain;f=src/java/org/apache/hadoop/hbase/thrift/Hbase.thrift;hb=$(REFERENCE)
+REFERENCE = refs/tags/rel/2.0.2
+INTERFACE = https://gitbox.apache.org/repos/asf?p=hbase.git;a=blob_plain;f=hbase-thrift/src/main/resources/org/apache/hadoop/hbase/thrift/Hbase.thrift;hb=$(REFERENCE)
 
 all: $(SRCDIR) $(SCRIPTDIR)/Hbase-remote
 
