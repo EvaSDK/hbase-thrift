@@ -1,7 +1,8 @@
 SRCDIR = hbase
 GENDIR = build/tmp
 SCRIPTDIR = scripts
-INTERFACE = https://svn.apache.org/repos/asf/hadoop/hbase/branches/0.20/src/java/org/apache/hadoop/hbase/thrift/Hbase.thrift
+REFERENCE = refs/tags/rel/0.20.4
+INTERFACE = https://gitbox.apache.org/repos/asf?p=hbase.git;a=blob_plain;f=src/java/org/apache/hadoop/hbase/thrift/Hbase.thrift;hb=$(REFERENCE)
 
 all: $(SRCDIR) $(SCRIPTDIR)/Hbase-remote
 
@@ -20,13 +21,12 @@ $(SCRIPTDIR)/Hbase-remote: $(GENDIR)/gen-py
 	mkdir -p $(SCRIPTDIR)
 	cp -R $^/hbase/Hbase-remote $@
 
-$(GENDIR)/gen-py: hbase.thrift
+$(GENDIR)/gen-py: Hbase.thrift
 	-mkdir -p $(GENDIR)
 	thrift -o $(GENDIR) -gen py:new_style=True $^
 
 update:
-	@echo "Updating to: $(shell svn info $(INTERFACE) | grep ^Last\ Changed\ Rev | cut -d: -f2)"
-	svn cat $(INTERFACE) > $(shell basename $(INTERFACE))
+	curl -fsS -o Hbase.thrift "$(INTERFACE)"
 
 clean:
 	rm -rf $(GENDIR) $(SRCDIR) $(SCRIPTDIR) gen-* build dist *.egg-info
